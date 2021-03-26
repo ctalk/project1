@@ -19,10 +19,11 @@ public interface UserTable {
 	// table.
 	public static final ArrayList<String> colDefs =
 			new ArrayList <> (Arrays.asList
-					("id serial primary key not null",
+					("id serial primary key not null,",
 					 "firstname varchar(64) not null,",
 					 "lastname varchar (64) not null,",
 					 "userid varchar (64) not null unique,",
+					 "password varchar (64) not null,",
 					 "ssn varchar (12) not null,",
 					 "role int not null)"));
 }
