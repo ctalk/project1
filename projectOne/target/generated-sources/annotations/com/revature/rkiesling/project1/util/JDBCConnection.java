@@ -19,8 +19,7 @@ public class JDBCConnection {
 		
 	public static Connection getJDBCConnection () {
 		/* 
-		 *
-		 *  Connect to the DBMS set in the 
+		 * Connect to the DBMS set in the 
 		 *  following environment variables:
 		 *  
 		 *    db_user
