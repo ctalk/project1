@@ -15,7 +15,12 @@ public class JDBCConnection {
         /* 
          * This should be called from Login.init ()
          */
-        DriverManager.registerDriver(new Driver ());            
+        try {
+                DriverManager.registerDriver(new Driver ());  
+        } catch (SQLException e) {
+                System.out.println (e.getMessage ());
+                throw e;
+        }
     }
                 
     public static Connection getJDBCConnection () {

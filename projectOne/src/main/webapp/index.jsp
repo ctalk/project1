@@ -11,27 +11,26 @@
     </head>
     <body class="p-3 mb-2 bg-secondary text-blue">
       <h3>Expense File Login</h3>
-
-        <form action="Login">
-	  <div class="d-grid gap-3 p-2 border border-dark bg-primary text-gray">
+        <form action="Login" method="POST">
+          <div class="d-grid gap-3 p-2 border border-dark bg-primary text-gray">
             <div class="form-group col-5 mx-auto">
-	      <input placeholder="Employee Login"
-		     class="form-control" id="emp-name">
+              <input placeholder="User ID"
+                     class="form-control" name="userid" id="userid">
             </div>
-	    
+            
             <div class="form-group col-5 mx-auto">
               <input placeholder="Password"
-		     type="password" size="40"
-		     class="form-control" id="emp-email">
+                     type="password" size="40"
+                     class="form-control" name="password" id="password">
             </div>
 
-	  </div>
+          </div>
           <br>
-	  <div class="border border-dark bg-primary row align-items-center">
-	    <div class="col-1 mx-auto p-3">
-	      <button type="submit">Login</button>
-	    </div>
-	  </div>
+          <div class="border border-dark bg-primary row align-items-center">
+            <div class="col-1 mx-auto p-3">
+              <button type="submit">Login</button>
+            </div>
+          </div>
         </form>
        
         

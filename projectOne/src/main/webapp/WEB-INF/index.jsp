@@ -11,19 +11,17 @@
     </head>
     <body class="p-3 mb-2 bg-secondary text-blue">
       <h3>Expense File Login</h3>
-      <img src="login-img.jpeg" alt="Sunny beach and palm tree.">
-
         <form action="Login">
 	  <div class="d-grid gap-3 p-2 border border-dark bg-primary text-gray">
             <div class="form-group col-5 mx-auto">
-	      <input placeholder="Employee Login"
-		     class="form-control" id="emp-name">
+	      <input placeholder="User ID"
+		     class="form-control" name="userid" id="userid">
             </div>
 	    
             <div class="form-group col-5 mx-auto">
               <input placeholder="Password"
 		     type="password" size="40"
-		     class="form-control" id="emp-email">
+		     class="form-control" name="password" id="password">
             </div>
 
 	  </div>

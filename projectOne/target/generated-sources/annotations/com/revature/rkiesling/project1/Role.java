@@ -5,3 +5,4 @@ public interface Role {
     public static final int ROLE_EMPLOYEE = 1;
     public static final int ROLE_MANAGER = 2;
 }
+

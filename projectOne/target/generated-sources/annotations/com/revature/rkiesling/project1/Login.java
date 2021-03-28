@@ -1,11 +1,16 @@
 package com.revature.rkiesling.project1;
 
-import com.revature.rkiesling.project1.util.JDBCConnection;
+import com.revature.rkiesling.project1.Role;
+import com.revature.rkiesling.project1.User;
+import com.revature.rkiesling.project1.UserDAO;
+import com.revature.rkiesling.project1.UserNotFoundException;
 import com.revature.rkiesling.project1.util.DBUtil;
+import com.revature.rkiesling.project1.util.JDBCConnection;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,18 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Servlet implementation class Login
- */
-public class Login extends HttpServlet {
+public class Login extends HttpServlet implements Role {
         private static final long serialVersionUID = 1L;
        
         public void init() throws ServletException {
                 try {
-                        JDBCConnection.registerPostGresqlDriver ();
+                    JDBCConnection.registerPostGresqlDriver ();
                 } catch (SQLException e) {
-                        System.out.println (e.getMessage ());
-                        throw new ServletException (e.getMessage());
+                    System.out.println (e.getMessage ());
+                    throw new ServletException (e);
                 }
         }
         
@@ -36,23 +38,76 @@ public class Login extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-        /**
-         * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-         */
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void roleDispatch (User u, HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = null;
+            request.getRequestDispatcher ("/ExpenseAdmin");
+        switch (u.role ()) {
+        case Role.ROLE_ADMIN:
+            dispatcher = request.getRequestDispatcher ("/ExpenseAdmin");
+            request.setAttribute ("firstName", u.firstName ());
+            request.setAttribute ("lastName", u.lastName ());
+            try {
+                dispatcher.forward (request, response);
+            } catch (ServletException e) {
+                System.out.println (e.getMessage ());
+            } catch (IOException e) {
+                System.out.println (e.getMessage ());
+            }
+            break;
+        case Role.ROLE_EMPLOYEE:
+            break;
+        case Role.ROLE_MANAGER:
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
                 
-                Connection con = JDBCConnection.getJDBCConnection ();
                 response.setContentType ("text/html");
                 PrintWriter out = response.getWriter ();
+                User u = null;
+                UserDAO dao = new UserDAO ();
                 // Check whether we have a database
-                if (!DBUtil.haveSchema ()) {
-                   out.append(DBUtil.makeSchema ());
-		   out.append(DBUtil.makeTables ());
-		   out.append(DBUtil.createAdminUser ());
+                try {
+                    if (!DBUtil.haveSchema ()) {
+                        // If not, create databases
+                        // and transfer to the add
+                        // user page.
+                        DBUtil.makeSchema ();
+                        DBUtil.makeTables ();
+                        DBUtil.createAdminUser ();
+                        RequestDispatcher dispatcher =
+                        request.getRequestDispatcher ("/ExpenseAdmin");
+                        request.setAttribute ("firstName", "adminFirstName");
+                        request.setAttribute ("lastName", "adminLastName");
+                        dispatcher.forward (request, response);
+                    } else {
+                        String userid = (String)request.getParameter ("userid");
+                        String password = (String)request.getParameter ("password");
+                        if ((u = dao.getUser (userid, password)) == null) {
+                            StringBuffer URL = request.getRequestURL();
+                            // This is so the server adds on the index.[html|jsp]
+                            String baseurl = URL.substring(0, URL.length () - 6); // "/Login" servlet path length
+                            out.append ("<html><body>");
+                            out.append ("Invalid user ID or password.<br>");
+                            out.append ("<a href=\"" + baseurl + "\">Retry</a>");
+                            out.append ("</body></html>");
+                        } else {
+                            roleDispatch (u, request, response);
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new ServletException (e);
                 }
-                JDBCConnection.closeAll(con);
-                
-                
         }
+    protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet (request, response);
+    }
 
 }
