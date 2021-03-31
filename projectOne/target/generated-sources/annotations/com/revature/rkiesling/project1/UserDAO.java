@@ -30,7 +30,6 @@ public class UserDAO implements UserTable, Role {
             + "\'" + u.password () + "',"
             + "\'" + u.SSN () + "',"
             + u.role () + ")";
-        System.out.println (sql);
         try {
             s = c.createStatement ();
             Integer nrows = s.executeUpdate (sql);

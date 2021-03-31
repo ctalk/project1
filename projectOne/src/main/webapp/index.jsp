@@ -10,7 +10,7 @@
         <title>Input Expense</title>
     </head>
     <body class="p-3 mb-2 bg-secondary text-blue">
-      <h3>Expense File Login</h3>
+      <h3>Expense Tracking Login</h3>
         <form action="Login" method="POST">
           <div class="d-grid gap-3 p-2 border border-dark bg-primary text-gray">
             <div class="form-group col-5 mx-auto">
@@ -25,6 +25,7 @@
             </div>
 
           </div>
+	  <input type="hidden" name="dbinit">
           <br>
           <div class="border border-dark bg-primary row align-items-center">
             <div class="col-1 mx-auto p-3">

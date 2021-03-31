@@ -40,12 +40,15 @@ public class Login extends HttpServlet implements Role {
 
     private void roleDispatch (User u, HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
-            request.getRequestDispatcher ("/ExpenseAdmin");
-        switch (u.role ()) {
+	request.setAttribute ("firstName", u.firstName ());
+	request.setAttribute ("lastName", u.lastName ());
+	request.setAttribute ("userid", u.userid ());
+
+	switch (u.role ()) {
         case Role.ROLE_ADMIN:
             dispatcher = request.getRequestDispatcher ("/ExpenseAdmin");
-            request.setAttribute ("firstName", u.firstName ());
-            request.setAttribute ("lastName", u.lastName ());
+            /* request.setAttribute ("firstName", u.firstName ());
+	       request.setAttribute ("lastName", u.lastName ()); */ /***/
             try {
                 dispatcher.forward (request, response);
             } catch (ServletException e) {
@@ -55,10 +58,27 @@ public class Login extends HttpServlet implements Role {
             }
             break;
         case Role.ROLE_EMPLOYEE:
+            dispatcher = request.getRequestDispatcher ("/Expenses");
+            /* request.setAttribute ("firstName", u.firstName ());
+            request.setAttribute ("lastName", u.lastName ());
+            request.setAttribute ("userid", u.userid ()); *//***/
+            try {
+                dispatcher.forward (request, response);
+            } catch (ServletException e) {
+                System.out.println (e.getMessage ());
+            } catch (IOException e) {
+                System.out.println (e.getMessage ());
+            }
             break;
         case Role.ROLE_MANAGER:
-            break;
-        default:
+            dispatcher = request.getRequestDispatcher ("/Manage");
+            try {
+                dispatcher.forward (request, response);
+            } catch (ServletException e) {
+                System.out.println (e.getMessage ());
+            } catch (IOException e) {
+                System.out.println (e.getMessage ());
+            }
             break;
         }
     }
@@ -84,7 +104,8 @@ public class Login extends HttpServlet implements Role {
                         DBUtil.createAdminUser ();
                         RequestDispatcher dispatcher =
                         request.getRequestDispatcher ("/ExpenseAdmin");
-                        request.setAttribute ("firstName", "adminFirstName");
+			request.setAttribute ("firstName", "adminFirstName");
+                        request.setAttribute ("dbinit", "true");
                         request.setAttribute ("lastName", "adminLastName");
                         dispatcher.forward (request, response);
                     } else {
