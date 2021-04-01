@@ -156,29 +156,6 @@ public interface WebPage {
         return s;
     }
 
-    //    static String manageForm =
-    //        "<div class=\"d-grid gap-3 p-2 border border-dark bg-primary text-gray\">" 
-    //  + "<form action=\"ReviewClaims\" method=\"POST\">"
-    //  + "  <h6>Review Invoices By</h6>"
-    //  + "    <div class=\"border border-dark gap-3 p-2\">"
-    //  + "      <label for=\"pending\"><b>Pending Requests</b></label>"
-    //  + "      <input type=\"checkbox\" id=\"pending\" name=\"pending\" value=\"pending\"><br>"
-    //  + "      <input type=\"input\" placeholder=\"User ID (Leave blank to view all users.)\" class=\"form-control\" id=\"pendinguser\" name=\"pendinguser\">"
-    //  + "    </div>"
-    //  + "    <br>"
-    //  + "    <div class=\"p-2 border border-dark gap-3 p-2\">"
-    //  + "      <label for=\"resolved\"><b>Resolved Requests</b></label>"
-    //  + "      <input type=\"checkbox\" id=\"resolved\" name=\"resolved\" value=\"resolved\"><br>"
-    //  + "      <input type=\"input\" placeholder=\"User ID (Leave blank to view all users.)\" class=\"form-control\" id=\"resolveduser\" name=\"resolveduser\">"
-    //  + "    </div>"
-    //  + "  <br>"
-    //  + "  <div width=\"50%\" class=\"border border-dark " + formInputPad + "\">"
-    //  + "    <button type=\"submit\">Submit Request</button>"
-    //  + "  </div>"
-    //  + "</form>"
-    //  + "</div>";
-    
-
     static String manageForm =
         "<div class=\"d-grid gap-3 p-2 border border-dark bg-primary text-gray\">" 
         + "<form action=\"Review\" method=\"POST\">"
@@ -189,7 +166,7 @@ public interface WebPage {
         + "      <label for=\"resolved\"><b>Resolved Requests</b></label>"
         + "      <input type=\"checkbox\" id=\"resolved\" name=\"resolved\" value=\"resolved\"><br>"
         + "      <div class=\"gap-3 pt-2 pb-2\">"
-        + "        <input type=\"input\" placeholder=\"User ID (Leave blank to view all users.)\" class=\"form-control\" id=\"pendinguser\" name=\"pendinguser\">"
+        + "        <input type=\"input\" placeholder=\"User ID (Leave blank to view all users.)\" class=\"form-control\" id=\"userselection\" name=\"userselection\">"
         + "      </div>"
         + "    </div>"
         + "  <br>"

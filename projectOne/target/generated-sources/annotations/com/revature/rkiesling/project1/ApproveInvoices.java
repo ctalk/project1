@@ -42,6 +42,8 @@ public class ApproveInvoices extends HttpServlet {
         PrintWriter out = response.getWriter ();
 	InvoiceDAO dao = new InvoiceDAO ();
 
+	// If the manager only reviewed approved requests, this list will
+	// be empty.
 	Enumeration paramNames = request.getParameterNames();
 
 	while(paramNames.hasMoreElements()) {

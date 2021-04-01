@@ -1,8 +1,6 @@
 package com.revature.rkiesling.project1;
 
-import com.revature.rkiesling.project1.Invoice;
 import com.revature.rkiesling.project1.InvoiceDAO;
-import com.revature.rkiesling.project1.User;
 import com.revature.rkiesling.project1.util.InvoiceTable;
 import com.revature.rkiesling.project1.util.WebPage;
 
@@ -42,11 +40,25 @@ public class ManagementImpl extends HttpServlet implements InvoiceTable, WebPage
         throws ServletException, IOException {
         response.setContentType ("text/html");
         PrintWriter out = response.getWriter ();
-        User u = new User();
-        Invoice i = new Invoice();
 	InvoiceDAO dao = new InvoiceDAO ();
+	String tgtUser = (String)request.getParameter("userselection");
+	Integer approved = InvoiceTable.STATUS_BOTH;
+	String approvedStrPending = null;
+	String approvedStrApproved = null;
+	if ((approvedStrPending = (String)request.getParameter ("pending")) != null) {
+	    if ((approvedStrApproved = (String)request.getParameter ("resolved")) != null) {
+		approved = InvoiceTable.STATUS_BOTH;
+	    } else {
+		approved = InvoiceTable.STATUS_PENDING_APPROVAL;
+	    }
+	} else {
+	    // approveStringPending == null
+	    if ((approvedStrApproved = (String)request.getParameter ("resolved")) != null) {
+		approved = InvoiceTable.STATUS_APPROVED;
+	    }
+	}
         out.append (WebPage.reviewHeading ());
-	out.append (dao.reviewInvoices ("awilson", 0));
+	out.append (dao.reviewInvoices (tgtUser, approved));
     }
 
 }

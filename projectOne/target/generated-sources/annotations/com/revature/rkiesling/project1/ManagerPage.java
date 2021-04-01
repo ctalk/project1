@@ -23,12 +23,16 @@ public class ManagerPage extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    private String makeWebPage (String title, String firstName, String lastName,
+    private String makeWebPage (String firstName, String lastName,
                                 String userid, String base_url) {
-        String s = WebPage.pageHeading (title);
+        String s = WebPage.pageHeading ("Expense Management");
         // For a more readable, similar version, see index.jsp
         s += "<h2>Expense Management</h2>";
-        s += "<h5>Welcome, <b>" + firstName + " " + lastName + "</b></h5>";
+	if (firstName == null) {
+	    s += "<h5>Continue Reviewing Invoices</h5>";
+	} else {
+	    s += "<h5>Welcome, <b>" + firstName + " " + lastName + "</b></h5>";
+	}
         s += WebPage.manageForm;
         s += "<a href=\"" + base_url + "\" class=\"text-light bg-secondary\"><b>Sign Out.<b></a>";
         s += WebPage.pageFooting ();
@@ -65,8 +69,7 @@ public class ManagerPage extends HttpServlet {
         if ((userid = (String)request.getAttribute ("userid")) == null) {
             userid = (String)request.getParameter ("userid");
         }
-        out.append(makeWebPage ("Expense Documentation System",
-                                firstName, lastName, userid, baseURL));
+        out.append(makeWebPage (firstName, lastName, userid, baseURL));
         
     }
 
