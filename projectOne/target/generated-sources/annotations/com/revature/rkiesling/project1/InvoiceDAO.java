@@ -96,4 +96,90 @@ public class InvoiceDAO implements InvoiceTable, WebPage {
 	return sOut;
     }
 
+    public String reviewInvoices (String userid, Integer approved) {
+	Connection c = JDBCConnection.getJDBCConnection ();
+        Statement s = null;
+	ResultSet r = null;
+	String sOut = "";
+	String sUserID = "";
+	String sDate = "";
+	String sDateKey = "";
+	String sTime = "";
+	Float amt = 0.0f;
+	DecimalFormat fmt = new DecimalFormat ("#.00");
+	String sVendor = "";
+	String sInvoiceNo = "";
+	String sDesc = "";
+	int extra4break;
+	String sql = "select * from " + InvoiceTable.tableName +
+	    " where userid = '" + userid + "' and approved = " + approved;
+	try {
+            s = c.createStatement ();
+	    r = s.executeQuery (sql);
+	    sOut = "<form action=\"Approve\" method=\"Post\">";
+	    while (r.next ()) {
+		sUserID = r.getString ("userid");
+		sOut += "<samp>" + WebPage.padStr (sUserID, 20);
+		sTime = r.getString ("filedate").substring (12, 19);
+		sDate = WebPage.noBreak (r.getString ("filedate").substring (0, 10));
+		sDate += "&nbsp;" + sTime;
+		// here use datestamp exacly as it appears in the data
+		sDateKey = sUserID + "~" + r.getString ("filedate"); 
+		sOut += "<samp>"
+		    + WebPage.padStr(sDate, 37);
+		amt = r.getFloat ("amount");
+		sOut += WebPage.padStr (fmt.format (amt), 10);
+		sVendor = r.getString ("vendor");
+		// All of this processing is to make sure that spaces and hyphens
+		// don't cause lines to break.
+		if ((extra4break = WebPage.extraBreak (sVendor)) > 0) {
+		    sOut += WebPage.padStr (WebPage.noBreak (sVendor), 15 + extra4break);
+		} else {
+		    sOut += WebPage.padStr (sVendor, 15);
+		}
+		sInvoiceNo = r.getString ("invoiceno");
+		if ((extra4break = WebPage.extraBreak (sInvoiceNo)) > 0) {
+		    sOut += WebPage.padStr (WebPage.noBreak (sInvoiceNo), 15 + extra4break);
+		} else {
+		    sOut += WebPage.padStr (sInvoiceNo, 15);
+		}
+		sDesc = r.getString ("description");
+		if ((extra4break = WebPage.extraBreak (sDesc)) > 0) {
+		    sOut += WebPage.padStr (WebPage.noBreak (sDesc), 30 + extra4break);
+		} else {
+		    sOut += WebPage.padStr (sDesc, 30);
+		}
+		sOut += "</samp><br>"
+		    + "<div class=\"form-group border border-dark bg-primary text-gray\">"
+		    + "  <label for=\"check\"><samp>Approve</samp></label>"
+		    + "  <input type=\"checkbox\" style=\"color: blue;\" name=\"" + sDateKey + "\" value=\"" + sDateKey + "\"></div><hr>";
+	    }
+	    sOut += "<input type=\"submit\" value=\"Submit Approvals\">";
+	    sOut += "</form>";
+	} catch (SQLException e) {
+	} finally {
+            JDBCConnection.closeAll (c, s, r);
+	}
+	return sOut;
+    }
+
+    public void approveClaim (String userid, String datestamp) {
+	Connection c = JDBCConnection.getJDBCConnection ();
+        Statement s = null;
+
+        String sql = "update "
+            + InvoiceTable.tableName
+            + " set approved = " + InvoiceTable.STATUS_APPROVED + " where "
+	    + "userid = '" + userid + "' and filedate = '" + datestamp + "'";
+        try {
+            s = c.createStatement ();
+            Integer nrows = s.executeUpdate (sql);
+        } catch (SQLException e) {
+            System.out.println (e.getMessage ());
+        } finally {
+            JDBCConnection.closeAll (c, s);
+        }
+        
+    }
+
 }

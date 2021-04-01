@@ -59,10 +59,22 @@
   	<servlet-class>com.revature.rkiesling.project1.ViewInvoice</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>Manager</servlet-name>
-  	<display-name>Manager</display-name>
+  	<servlet-name>ManagerPage</servlet-name>
+  	<display-name>Manage</display-name>
   	<description></description>
-  	<servlet-class>com.revature.rkiesling.project1.Manager</servlet-class>
+  	<servlet-class>com.revature.rkiesling.project1.ManagerPage</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ManagementImpl</servlet-name>
+  	<display-name>ManageImpl</display-name>
+  	<description></description>
+  	<servlet-class>com.revature.rkiesling.project1.ManagementImpl</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ApproveInvoices</servlet-name>
+  	<display-name>Approve</display-name>
+  	<description></description>
+  	<servlet-class>com.revature.rkiesling.project1.ApproveInvoices</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
@@ -97,8 +109,16 @@
   	<url-pattern>/ViewInvoice</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>Manager</servlet-name>
+  	<servlet-name>ManagerPage</servlet-name>
   	<url-pattern>/Manage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ManagementImpl</servlet-name>
+  	<url-pattern>/Review</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ApproveInvoices</servlet-name>
+  	<url-pattern>/Approve</url-pattern>
   </servlet-mapping>
   <error-page>
   	<exception-type>java.lang.Throwable</exception-type>

@@ -29,4 +29,6 @@ public interface InvoiceTable {
 
     public static final int STATUS_PENDING_APPROVAL = 0;
     public static final int STATUS_APPROVED = 1;
+    // superposition
+    public static final int STATUS_BOTH = 2;
 }
